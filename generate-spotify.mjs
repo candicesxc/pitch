@@ -137,18 +137,31 @@ Output valid JSON only, no markdown, with this exact shape:
 
 CRITICAL RULES:
 1. Pick the 4 MOST CRITICAL requirements from the JD (not just any 4).
-2. About Me: 40-55 words MAX (cut 30% from typical length). Keep it tight and impactful.
-3. "I delivered": 1-1.5 sentences MAX (cut 50% from typical length). VARY the writing style dramatically:
+
+2. MATCHING IS CRITICAL - Each "You want" must have a STRONG, DIRECT connection to "I delivered":
+   - Read each JD requirement carefully and identify the CORE skill/outcome it's asking for
+   - Find the achievement from career data that BEST demonstrates that exact skill/outcome
+   - The connection should be obvious - if someone reads "You want X" and "I delivered Y", they should immediately see how Y proves X
+   - Avoid weak connections - don't force a match just to use different achievements
+   - If a requirement is about "product positioning", match it to an achievement about positioning/messaging
+   - If a requirement is about "GTM launches", match it to an achievement about launching products/campaigns
+   - If a requirement is about "customer research", match it to an achievement about interviews/surveys/insights
+   - If a requirement is about "technical translation", match it to an achievement about translating tech to business value
+
+3. About Me: 40-55 words MAX (cut 30% from typical length). Keep it tight and impactful.
+
+4. "I delivered": 1-1.5 sentences MAX (cut 50% from typical length). VARY the writing style dramatically:
    - Pair 1: Start with a bold metric/outcome ("Generated $125K pipeline..." or "$5M in enterprise deals...")
    - Pair 2: Start with a problem/action ("When engineering was resource-constrained..." or "I challenged the Head of Growth...")
    - Pair 3: Start with insight/discovery ("I discovered a critical gap..." or "Through 15 C-suite interviews...")
    - Pair 4: Use a completely different structure - maybe a confident direct statement, or a "what I did" format, or a results-first approach
-4. Each "I delivered" must feel UNIQUE:
+
+5. Each "I delivered" must feel UNIQUE:
    - Vary sentence length (some short/punchy, some slightly longer with context)
    - Vary tone (some confident/metrics-driven, some problem-solving, some strategic/insightful)
    - Avoid starting multiple sentences the same way ("I did...", "I built...", "I generated...")
    - Mix active voice with occasional variation
-5. Match each JD requirement to the BEST matching achievement from the rich career data.
+
 6. Write like a human storyteller, not a corporate robot. Each achievement should have its own personality and rhythm.`;
 
   const userPrompt = `Job description:\n\n${jdText.slice(0, 12000)}`;

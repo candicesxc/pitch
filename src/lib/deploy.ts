@@ -17,7 +17,10 @@ export async function deployPitch(
     return { ok: false, error: 'Missing VITE_GITHUB_TOKEN in .env' };
   }
 
-  const folderPath = `${companyName.toLowerCase().replace(/\s+/g, '-')}-${roleName.toLowerCase().replace(/\s+/g, '-')}`;
+  // Clean URL: remove special characters, keep only alphanumeric and hyphens
+  const cleanCompany = companyName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const cleanRole = roleName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const folderPath = `${cleanCompany}-${cleanRole}`;
   const fileName = `${folderPath}/index.html`;
   const url = `https://api.github.com/repos/candicesxc/pitch/contents/${fileName}`;
 
@@ -76,5 +79,27 @@ export async function deployPitch(
   }
 
   const liveUrl = `https://candiceshen.com/pitch/${folderPath}`;
+  
+  // Save URL locally for reference (browser localStorage)
+  try {
+    const storageKey = 'generated-pitches';
+    const existing = localStorage.getItem(storageKey);
+    const urls: Array<{ company: string; role: string; url: string; date: string }> = existing 
+      ? JSON.parse(existing) 
+      : [];
+    
+    urls.push({
+      company: companyName,
+      role: roleName,
+      url: liveUrl,
+      date: new Date().toISOString(),
+    });
+    
+    localStorage.setItem(storageKey, JSON.stringify(urls));
+  } catch (error) {
+    // Silently fail if localStorage not available
+    console.warn('Could not save URL locally:', error);
+  }
+  
   return { ok: true, url: liveUrl };
 }

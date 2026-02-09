@@ -142,9 +142,31 @@ function App() {
                 </button>
               </div>
               {deployMessage && (
-                <p className={`mt-4 text-sm ${deployMessage.startsWith('Success') ? 'text-green-700' : 'text-red-700'}`}>
-                  {deployMessage}
-                </p>
+                <div className="mt-4">
+                  <p className={`text-sm ${deployMessage.startsWith('Success') ? 'text-green-700' : 'text-red-700'}`}>
+                    {deployMessage}
+                  </p>
+                  {deployMessage.startsWith('Success') && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const urls = localStorage.getItem('generated-pitches');
+                        if (urls) {
+                          const blob = new Blob([urls], { type: 'application/json' });
+                          const downloadUrl = URL.createObjectURL(blob);
+                          const link = document.createElement('a');
+                          link.href = downloadUrl;
+                          link.download = 'generated-pitches.json';
+                          link.click();
+                          URL.revokeObjectURL(downloadUrl);
+                        }
+                      }}
+                      className="mt-2 text-xs text-gray-600 hover:text-gray-800 underline"
+                    >
+                      Download all generated URLs
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </>
