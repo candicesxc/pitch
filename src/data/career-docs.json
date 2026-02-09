@@ -1,0 +1,42 @@
+{
+  "name": "Candice (Xinchen) Shen",
+  "email": "candice.shen@yale.edu",
+  "education": [
+    { "degree": "MBA", "school": "Yale School of Management", "details": "Yale SOM" }
+  ],
+  "experience": [
+    {
+      "role": "PMM Intern",
+      "company": "Microsoft",
+      "focus": "AI Security",
+      "achievements": [
+        "Shipped AI Security positioning and messaging; supported product launches and sales enablement."
+      ]
+    },
+    {
+      "role": "Tech Marketing",
+      "company": "Materialize",
+      "achievements": [
+        "Demand gen, content, and product marketing for real-time data / streaming analytics."
+      ]
+    },
+    {
+      "role": "Tech Marketing",
+      "company": "Starburst",
+      "achievements": [
+        "Marketing for data lakehouse / analytics; ROI and positioning for enterprise data teams."
+      ]
+    }
+  ],
+  "vibeCodingProjects": [
+    {
+      "name": "Sales Coach AI",
+      "description": "AI-powered sales coaching or enablement tool; built and shipped as a side project."
+    },
+    {
+      "name": "ROI Calculators",
+      "description": "ROI calculators and value tools for B2B marketing and sales."
+    }
+  ],
+  "aboutMeBlurb": "MBA at Yale. PMM intern at Microsoft (AI Security). Tech marketing at Materialize and Starburst. Builds 'vibe coding' projects like Sales Coach AI and ROI calculators. Focus on product marketing, positioning, and conversion."
+}
