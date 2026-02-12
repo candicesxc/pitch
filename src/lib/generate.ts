@@ -151,10 +151,35 @@ Output valid JSON only, no markdown, with this exact shape:
   ]
 }
 
+EXTRACTION EXAMPLES:
+Example 1:
+Input: "Product Marketing Manager, Promotions & Acquisition, Amazon Music\nJob ID: 3179132 | Amazon.com Services LLC"
+Output: {"companyName": "Amazon", "roleName": "Product Marketing Manager"}
+
+Example 2:
+Input: "Senior Software Engineer, Infrastructure Team at Google"
+Output: {"companyName": "Google", "roleName": "Senior Software Engineer"}
+
+Example 3:
+Input: "Staff Product Manager - Growth | Duolingo"
+Output: {"companyName": "Duolingo", "roleName": "Staff Product Manager"}
+
 CRITICAL RULES FOR EXTRACTION:
-- companyName: Extract ONLY the company name (e.g., "Duolingo", "Google", "Microsoft"). DO NOT include phrases like "Company logo for" or "at" or any other text. Just the pure company name.
-- roleName: Extract ONLY the job title (e.g., "Product Marketing Manager", "Senior Software Engineer"). DO NOT include the company name or location or any other details. Just the pure job title.
-- If you cannot find a clear company name, use "the company" (NOT "Your Company")
+- companyName: Extract ONLY the company name. Look for these patterns in the JD:
+  * "Job ID: XXX | [COMPANY NAME]" (e.g., "Job ID: 3179132 | Amazon.com Services LLC" → extract "Amazon")
+  * Lines starting with company name followed by description
+  * Common companies: Amazon, Google, Microsoft, Meta, Apple, Netflix, etc.
+  * If job title is "[Role], [Team], [Product/Division]" (e.g., "PMM, Promotions, Amazon Music"), the company might be in the product name - extract the root company (Amazon, not "Amazon Music")
+  * DO NOT include ".com", "Services LLC", "Inc", or legal suffixes
+  * Just the brand name: "Amazon" not "Amazon.com Services LLC"
+
+- roleName: Extract ONLY the core job title, excluding team/division names:
+  * "Product Marketing Manager, Promotions & Acquisition, Amazon Music" → "Product Marketing Manager"
+  * "Senior Software Engineer, Infrastructure" → "Senior Software Engineer"
+  * Remove everything after the first comma if it's a team/division qualifier
+  * Keep seniority levels: "Senior", "Staff", "Principal", etc.
+
+- If you cannot find a clear company name after checking these patterns, use "the company" (NOT "Your Company")
 - If you cannot find a clear role name, use "this position" (NOT "this role")
 
 CRITICAL RULES FOR CONTENT:
