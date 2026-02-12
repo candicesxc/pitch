@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candice Shen | Pitch for Suite Studios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent-blue: #4281A4;
+            --accent-blue-hover: #35677F;
+        }
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background-color: #FFFFFF;
+            color: #1A1A1A;
+            scroll-behavior: smooth;
+        }
+        .subtle-bg { background-color: #FAFAFA; }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #E5E7EB;
+        }
+        .jd-quote {
+            border-left: 3px solid var(--accent-blue);
+            padding-left: 1.25rem;
+        }
+        .timeline-bar {
+            height: 12px;
+            background: #E5E7EB;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        .timeline-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue) 0%, #5A9AC4 100%);
+            border-radius: 6px;
+            width: 0%;
+            transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-outline {
+            border: 1px solid #D1D5DB;
+            transition: all 0.2s ease;
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-blue);
+            background: rgba(66, 129, 164, 0.05);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="font-semibold tracking-tight text-lg text-gray-900">Candice Shen <span class="text-gray-400">•</span> Suite Studios</span>
+            </div>
+            <div class="flex space-x-4">
+                <a href="mailto:candice.shen@yale.edu" class="text-white px-5 py-2 rounded-lg text-sm font-medium transition-all" style="background-color: var(--accent-blue);" onmouseover="this.style.backgroundColor='var(--accent-blue-hover)'" onmouseout="this.style.backgroundColor='var(--accent-blue)'">
+                    Message Me
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO -->
+    <section class="pt-40 pb-32 px-6">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-sm font-medium text-gray-500 mb-8 text-center md:text-left">To the hiring team at Suite Studios</p>
+            <h1 class="text-5xl md:text-6xl font-semibold tracking-tight leading-tight mb-10 text-center md:text-left text-gray-900">
+                I reimagined the cover letter
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 font-normal leading-relaxed text-center md:text-left">
+                This interactive pitch shows exactly why I'm the right fit for <span class="font-bold" style="color: var(--accent-blue);">Product Marketing Manager</span> at <span class="font-bold" style="color: var(--accent-blue);">Suite Studios</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE DELIVERY -->
+    <section id="solutions" class="py-32 subtle-bg border-y border-gray-200">
+        <div class="max-w-3xl mx-auto px-6">
+            <!-- About Me Block -->
+            <div class="mb-32">
+                <p class="text-sm font-medium text-gray-500 mb-6">About Me</p>
+                <div class="text-xl md:text-2xl text-gray-700 leading-loose font-normal">
+                    <p class="mb-4">As an MBA graduate from Yale, I specialize in product marketing with a focus on positioning and messaging for tech products. My experience spans AI security and real-time data solutions, where I've crafted narratives that resonate with diverse audiences.</p><p class="mb-4">I thrive in fast-paced environments, leveraging customer insights to drive growth and enhance product value communication.</p>
+                </div>
+            </div>
+
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-20 text-gray-900">How I can deliver what Suite Studios asked for</h2>
+
+            <div class="space-y-24">
+
+                <!-- Item 1 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                    <div class="jd-quote">
+                        <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color: var(--accent-blue);">You want</p>
+                        <p class="text-lg font-normal text-gray-700 italic leading-relaxed">"Define and refine product positioning, value propositions, and messaging that resonate across buyer personas and use cases."</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-gray-900 mb-3">I delivered</p>
+                        <p class="text-gray-600 leading-relaxed font-normal">
+                            I defined the GTM for Microsoft's AI Security market, translating complex tech into a compelling narrative that shifted sales focus towards business risk mitigation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                    <div class="jd-quote">
+                        <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color: var(--accent-blue);">You want</p>
+                        <p class="text-lg font-normal text-gray-700 italic leading-relaxed">"Plan and lead go-to-market launches for major features, releases, and campaigns cross-functionally with Product, Sales, and Marketing."</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-gray-900 mb-3">I delivered</p>
+                        <p class="text-gray-600 leading-relaxed font-normal">
+                            My strategic recommendations at Microsoft were rated 4.4/5 for solution value and were formally adopted into the product roadmap, directly influencing go-to-market strategies.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                    <div class="jd-quote">
+                        <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color: var(--accent-blue);">You want</p>
+                        <p class="text-lg font-normal text-gray-700 italic leading-relaxed">"Conduct customer and market research, win/loss analysis, and competitive intelligence to inform product strategy and market prioritization."</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-gray-900 mb-3">I delivered</p>
+                        <p class="text-gray-600 leading-relaxed font-normal">
+                            Through 15 C-suite interviews and a survey of 67 enterprise leaders, I uncovered a critical gap in AI security readiness, informing strategic decisions for product positioning.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                    <div class="jd-quote">
+                        <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color: var(--accent-blue);">You want</p>
+                        <p class="text-lg font-normal text-gray-700 italic leading-relaxed">"Track and measure the effectiveness of product messaging, launches, and enablement efforts; iterate based on performance and feedback."</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-gray-900 mb-3">I delivered</p>
+                        <p class="text-gray-600 leading-relaxed font-normal">
+                            I built Google Data Studio dashboards at Starburst for real-time visibility into account penetration, enabling data-driven adjustments to our marketing strategies.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-24 text-center">
+                <p class="text-sm font-normal text-gray-500">Work samples and references available upon request</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: SPONSORSHIP (STABILITY) -->
+    <section id="runway" class="py-32 px-6">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-20 leading-tight text-center md:text-left text-gray-900">The "sponsorship" question you're probably wondering about</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                <div class="space-y-10">
+                    <!-- Tightened Stability Item -->
+                    <div class="flex items-start space-x-4">
+                        <span class="text-2xl">🛡️</span>
+                        <div>
+                            <h4 class="font-bold text-lg mb-1">Risk-Free Stability</h4>
+                            <p class="text-gray-500 text-sm leading-relaxed">
+                                Low-cost cap-exempt H1B transfer & STEM OPT. Zero lottery risk, 5.5 years of guaranteed runway. Longer than most tech tenures.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tightened Availability Item 1 -->
+                    <div class="flex items-start space-x-4">
+                        <span class="text-2xl">🚀</span>
+                        <div>
+                            <h4 class="font-bold text-lg mb-1">Full time starting May</h4>
+                            <p class="text-gray-500 text-sm">Available to join full time in May 2026.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tightened Availability Item 2 -->
+                    <div class="flex items-start space-x-4">
+                        <span class="text-2xl">💻</span>
+                        <div>
+                            <h4 class="font-bold text-lg mb-1">Available now</h4>
+                            <p class="text-gray-500 text-sm">Open to part time work (NYC or Remote) until then.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Breakdown -->
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 shadow-sm">
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between items-end mb-3">
+                                <span class="text-xs font-medium text-gray-500">Total Guaranteed Runway</span>
+                                <span class="text-2xl font-bold" style="color: var(--accent-blue);">5.5 Years</span>
+                            </div>
+                            <div class="timeline-bar"><div class="timeline-fill" style="width: 100%;"></div></div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-4 bg-white rounded-xl border border-gray-200">
+                                <p class="text-xs font-medium text-gray-500 mb-1">STEM OPT</p>
+                                <p class="text-xl font-bold" style="color: var(--accent-blue);">3.0 Yrs</p>
+                            </div>
+                            <div class="p-4 bg-white rounded-xl border border-gray-200">
+                                <p class="text-xs font-medium text-gray-500 mb-1">H1B Left</p>
+                                <p class="text-xl font-bold" style="color: var(--accent-blue);">2.5 Yrs</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-gray-200">
+                            <div class="flex justify-between items-end mb-3 text-gray-400">
+                                <span class="text-xs font-medium">Industry Avg Tenure</span>
+                                <span class="text-sm font-medium">1.8 Yrs</span>
+                            </div>
+                            <div class="timeline-bar"><div class="timeline-fill" style="width: 32%; background: #D1D5DB;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER: CALL TO ACTION -->
+    <footer class="py-32 px-6 border-t border-gray-200 bg-white text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4 text-gray-900">Let's start a conversation</h2>
+            <p class="text-gray-600 text-lg font-normal mb-12">I'd love to discuss how I can contribute to Suite Studios</p>
+
+            <div class="flex flex-col items-center space-y-4">
+                <a href="https://linkedin.com/in/candiceshen" target="_blank" class="btn-outline px-8 py-3 rounded-xl text-sm font-medium w-full max-w-sm flex items-center justify-between group">
+                    <span>LinkedIn Profile</span>
+                    <span class="text-gray-500 group-hover:text-gray-700 transition-colors ml-2 font-normal">linkedin.com/in/candiceshen</span>
+                </a>
+                <a href="https://candiceshen.com" target="_blank" class="btn-outline px-8 py-3 rounded-xl text-sm font-medium w-full max-w-sm flex items-center justify-between group">
+                    <span>Personal Website</span>
+                    <span class="text-gray-500 group-hover:text-gray-700 transition-colors ml-2 font-normal">candiceshen.com</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                    
+                    if (entry.target.id === 'runway') {
+                        setTimeout(() => {
+                            const fills = entry.target.querySelectorAll('.timeline-fill');
+                            fills[0].style.width = '100%';
+                            fills[1].style.width = '32%';
+                        }, 300);
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = "0";
+            section.style.transform = "translateY(20px)";
+            section.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out";
+            observer.observe(section);
+        });
+    </script>
+
+    <!-- COPYRIGHT FOOTER -->
+    <footer class="py-8 px-6 border-t border-gray-200 bg-white text-center">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-gray-500 text-sm mb-2">© 2026 Candice Shen. All rights reserved.</p>
+            <p class="text-gray-400 text-xs">Built with care and AI assistance</p>
+        </div>
+    </footer>
+</body>
+</html>
