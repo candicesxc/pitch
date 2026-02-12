@@ -12,8 +12,8 @@ export type GeneratedPitch = {
  */
 function extractCompanyAndRole(jdText: string): { companyName: string; roleName: string } {
   const firstLines = jdText.slice(0, 800).split(/\n/).map((l) => l.trim()).filter(Boolean);
-  let companyName = 'Your Company';
-  let roleName = 'this role';
+  let companyName = 'the company';
+  let roleName = 'this position';
   for (const line of firstLines) {
     const at = line.match(/\b(at|@)\s+([A-Z][A-Za-z0-9\s&-]+?)(?:\s*[|\-]|$)/i);
     if (at?.[2]) {
@@ -139,19 +139,25 @@ ${careerContext}
 
 Output valid JSON only, no markdown, with this exact shape:
 {
-  "companyName": "string (extract from JD)",
-  "roleName": "string (extract from JD)",
+  "companyName": "string (extract from JD - JUST the company name, like 'Duolingo' or 'Google' or 'Microsoft')",
+  "roleName": "string (extract from JD - JUST the job title, like 'Product Marketing Manager' or 'Senior PMM')",
   "tailoredAboutMe": "string (40-55 words MAX, 1-2 short paragraphs separated by \\n\\n, tailored to role/company)",
   "pairs": [
-    { 
-      "jdRequirement": "exact or condensed JD requirement (1 sentence)", 
+    {
+      "jdRequirement": "exact or condensed JD requirement (1 sentence)",
       "myAchievement": "1-1.5 sentences MAX from rich career data. VARY the structure: some start with metrics, some with action, some with context. Make each one feel unique and human, not templated. Be concise but punchy."
     },
     ... exactly 4 pairs
   ]
 }
 
-CRITICAL RULES:
+CRITICAL RULES FOR EXTRACTION:
+- companyName: Extract ONLY the company name (e.g., "Duolingo", "Google", "Microsoft"). DO NOT include phrases like "Company logo for" or "at" or any other text. Just the pure company name.
+- roleName: Extract ONLY the job title (e.g., "Product Marketing Manager", "Senior Software Engineer"). DO NOT include the company name or location or any other details. Just the pure job title.
+- If you cannot find a clear company name, use "the company" (NOT "Your Company")
+- If you cannot find a clear role name, use "this position" (NOT "this role")
+
+CRITICAL RULES FOR CONTENT:
 1. Pick the 4 MOST CRITICAL requirements from the JD (not just any 4).
 
 2. MATCHING IS CRITICAL - Each "You want" must have a STRONG, DIRECT connection to "I delivered":
@@ -225,8 +231,8 @@ CRITICAL RULES:
     };
   }
   return {
-    companyName: parsed.companyName ?? 'Your Company',
-    roleName: parsed.roleName ?? 'this role',
+    companyName: parsed.companyName ?? 'the company',
+    roleName: parsed.roleName ?? 'this position',
     tailoredAboutMe: parsed.tailoredAboutMe ?? careerData.aboutMeBlurb,
     pairs: normalizePairs(parsed.pairs),
   };
