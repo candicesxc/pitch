@@ -1,0 +1,31 @@
+Feature,Impact,Effort,Reach,RICE,RICE_Rank,Q1_Rank
+Send Table Ready SMS from Host App,3.0,0.5,10.0,60.0,1,19
+Temporarily pause new online pickup,3.0,1.0,10.0,30.0,2,1
+See next few upcoming reservation times on tables,3.0,1.0,10.0,30.0,3,14
+Enable contactless or curbside pickup option,3.0,1.0,10.0,30.0,4,24
+Have credit card holds for reservations,3.0,1.0,6.0,18.0,5,13
+Turn pickup tipping on/off,3.0,1.0,6.0,18.0,6,2
+Guest loyalty program integration through Fishbowl intergration,3.0,2.0,10.0,15.0,7,6
+Adjust per-day operating changes and reservation availability,3.0,1.5,6.0,12.0,8,5
+Temporarily pause new reservations,3.0,1.5,6.0,12.0,9,23
+"Hide sensitive guest information on chit prints (hide average spend, etc)",3.0,0.5,1.5,9.0,10,21
+Guest relationship management notes for FOH,3.0,1.0,3.0,9.0,11,22
+Customize reservation and cancellation policy on the fly,3.0,1.0,3.0,9.0,12,17
+Add general notes for an upcoming shift ,3.0,0.5,1.5,9.0,13,16
+Customize SMS messages for pickup and delivery,3.0,0.5,1.5,9.0,14,26
+Customize reservation and cancellation policy viewable to guests,3.0,1.0,3.0,9.0,15,4
+Let guests manage their phone reservations via existing guest app,3.0,2.0,6.0,9.0,16,18
+Easily cancel and refund takeout orders,3.0,1.5,3.0,6.0,17,27
+Customize different floor plans per shift,3.0,1.5,3.0,6.0,18,12
+Let guests choose where they would like to sit when booking reservation (inside or outside),3.0,1.0,1.5,4.5,19,11
+Point of sale (POS) integration Toast,3.0,2.0,3.0,4.5,20,9
+Customize email messages for pickup and delivery,3.0,0.5,0.5,3.0,21,25
+Point of sale (POS) integration with Micros,3.0,1.5,1.5,3.0,22,8
+Track actual seated time trends by party size and day of week,3.0,2.0,1.5,2.25,23,3
+View future floor maps with assigned reservations by time,3.0,1.0,0.5,1.5,24,15
+Allow guests to remotely check in for reservation,3.0,1.0,0.5,1.5,25,10
+Allow custom COVID safety protocols to be viewable by guest ,3.0,1.0,0.5,1.5,26,28
+Point of sale (POS) integration with Aloha,3.0,1.5,0.5,1.0,27,7
+Edit the floor plan on the fly,3.0,1.5,0.5,1.0,28,20
+Suggest optimal table for reservation during booking,,2.5,10.0,,29,29
+Point of sale (POS) integration with Amadeus,,1.5,6.0,,30,30

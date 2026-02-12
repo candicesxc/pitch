@@ -10,20 +10,19 @@ export function getPitchHtml(values: {
   pairs: { jdRequirement: string; myAchievement: string }[];
 }): string {
   const { companyName, roleName, tailoredAboutMe, pairs } = values;
-  const companyLower = companyName.toLowerCase();
-  
+
   const pairBlocks = pairs
     .map(
       (p) => `
                 <!-- Item ${pairs.indexOf(p) + 1} -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
                     <div class="jd-quote">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">You want</p>
-                        <p class="text-lg font-medium text-gray-700 italic leading-relaxed">"${escapeHtml(p.jdRequirement)}"</p>
+                        <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color: var(--accent-blue);">You want</p>
+                        <p class="text-lg font-normal text-gray-700 italic leading-relaxed">"${escapeHtml(p.jdRequirement)}"</p>
                     </div>
                     <div>
-                        <p class="text-[10px] font-black uppercase tracking-widest text-black mb-2">I delivered</p>
-                        <p class="text-gray-600 leading-relaxed">
+                        <p class="text-xs font-medium text-gray-900 mb-3">I delivered</p>
+                        <p class="text-gray-600 leading-relaxed font-normal">
                             ${escapeHtml(p.myAchievement)}
                         </p>
                     </div>
@@ -40,46 +39,49 @@ export function getPitchHtml(values: {
     <script src="https://cdn.tailwindcss.com"><\/script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --accent-blue: #4281A4;
+            --accent-blue-hover: #35677F;
+        }
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Ubuntu', sans-serif;
             background-color: #FFFFFF;
             color: #1A1A1A;
             scroll-behavior: smooth;
         }
-        .notion-bg { background-color: #F7F7F5; }
+        .subtle-bg { background-color: #FAFAFA; }
         .glass-nav {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid #E5E5E5;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #E5E7EB;
         }
         .jd-quote {
-            border-left: 3px solid #000;
-            padding-left: 1.5rem;
+            border-left: 3px solid var(--accent-blue);
+            padding-left: 1.25rem;
         }
         .timeline-bar {
-            height: 14px;
-            background: #EEEEEE;
-            border-radius: 7px;
+            height: 12px;
+            background: #E5E7EB;
+            border-radius: 6px;
             position: relative;
             overflow: hidden;
         }
         .timeline-fill {
             height: 100%;
-            background: #000;
-            border-radius: 7px;
+            background: linear-gradient(90deg, var(--accent-blue) 0%, #5A9AC4 100%);
+            border-radius: 6px;
             width: 0%;
             transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-outline {
-            border: 1px solid #E5E5E5;
+            border: 1px solid #D1D5DB;
             transition: all 0.2s ease;
         }
         .btn-outline:hover {
-            border-color: #000;
-            background: #FAFAFA;
-            transform: translateY(-1px);
+            border-color: var(--accent-blue);
+            background: rgba(66, 129, 164, 0.05);
         }
     </style>
 </head>
@@ -89,56 +91,56 @@ export function getPitchHtml(values: {
     <nav class="fixed top-0 w-full z-50 glass-nav">
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <span class="font-bold tracking-tight text-lg">candice shen ❤️ ${escapeHtml(companyLower)}</span>
+                <span class="font-semibold tracking-tight text-lg text-gray-900">Candice Shen <span class="text-gray-400">•</span> ${escapeHtml(companyName)}</span>
             </div>
             <div class="flex space-x-4">
-                <a href="mailto:candice.shen@yale.edu" class="bg-black text-white px-5 py-2 rounded-lg text-sm font-bold hover:bg-zinc-800 transition-all shadow-sm">
+                <a href="mailto:candice.shen@yale.edu" class="text-white px-5 py-2 rounded-lg text-sm font-medium transition-all" style="background-color: var(--accent-blue);" onmouseover="this.style.backgroundColor='var(--accent-blue-hover)'" onmouseout="this.style.backgroundColor='var(--accent-blue)'">
                     Message Me
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- SECTION 1: THE ANTI-COVER LETTER -->
-    <section class="pt-40 pb-24 px-6">
-        <div class="max-w-4xl mx-auto">
-            <p class="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 text-center md:text-left">To the hiring team at ${escapeHtml(companyName)}</p>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-10 text-center md:text-left">
-                Nobody cares about cover letters, neither do I
+    <!-- SECTION 1: HERO -->
+    <section class="pt-40 pb-32 px-6">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-sm font-medium text-gray-500 mb-8 text-center md:text-left">To the hiring team at ${escapeHtml(companyName)}</p>
+            <h1 class="text-5xl md:text-6xl font-semibold tracking-tight leading-tight mb-10 text-center md:text-left text-gray-900">
+                I reimagined the cover letter
             </h1>
-            <p class="text-2xl md:text-3xl text-gray-500 font-medium leading-snug text-center md:text-left">
-                So I built this pitch to show you why I'm the perfect fit for <span class="text-black underline decoration-2 underline-offset-4 font-bold italic">${escapeHtml(roleName)}</span> at <span class="text-black font-bold">${escapeHtml(companyName)}</span>
+            <p class="text-xl md:text-2xl text-gray-600 font-normal leading-relaxed text-center md:text-left">
+                This interactive pitch shows exactly why I'm the right fit for <span class="font-bold" style="color: var(--accent-blue);">${escapeHtml(roleName)}</span> at <span class="font-bold" style="color: var(--accent-blue);">${escapeHtml(companyName)}</span>
             </p>
         </div>
     </section>
 
     <!-- SECTION 2: THE DELIVERY -->
-    <section id="solutions" class="py-24 notion-bg border-y border-gray-100">
-        <div class="max-w-4xl mx-auto px-6">
+    <section id="solutions" class="py-32 subtle-bg border-y border-gray-200">
+        <div class="max-w-3xl mx-auto px-6">
             <!-- About Me Block -->
-            <div class="mb-24">
-                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-6">About Me</p>
-                <div class="text-xl md:text-2xl text-gray-800 leading-relaxed font-medium">
+            <div class="mb-32">
+                <p class="text-sm font-medium text-gray-500 mb-6">About Me</p>
+                <div class="text-xl md:text-2xl text-gray-700 leading-loose font-normal">
                     ${tailoredAboutMe.split('\n\n').map(p => `<p class="mb-4">${escapeHtml(p)}</p>`).join('')}
                 </div>
             </div>
 
-            <h2 class="text-4xl font-extrabold tracking-tighter mb-16">How I can deliver what ${escapeHtml(companyName)} asked for</h2>
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-20 text-gray-900">How I can deliver what ${escapeHtml(companyName)} asked for</h2>
 
-            <div class="space-y-20">
+            <div class="space-y-24">
 ${pairBlocks}
             </div>
 
-            <div class="mt-20 text-center">
-                <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Work samples available upon ask</p>
+            <div class="mt-24 text-center">
+                <p class="text-sm font-normal text-gray-500">Work samples and references available upon request</p>
             </div>
         </div>
     </section>
 
     <!-- SECTION 3: SPONSORSHIP (STABILITY) -->
-    <section id="runway" class="py-24 px-6">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-4xl font-extrabold tracking-tighter mb-16 leading-tight text-center md:text-left">The "sponsorship" question you're probably wondering about</h2>
+    <section id="runway" class="py-32 px-6">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-20 leading-tight text-center md:text-left text-gray-900">The "sponsorship" question you're probably wondering about</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                 <div class="space-y-10">
@@ -176,30 +178,30 @@ ${pairBlocks}
                 <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 shadow-sm">
                     <div class="space-y-8">
                         <div>
-                            <div class="flex justify-between items-end mb-2">
-                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Total Guaranteed Runway</span>
-                                <span class="text-2xl font-black">5.5 Years</span>
+                            <div class="flex justify-between items-end mb-3">
+                                <span class="text-xs font-medium text-gray-500">Total Guaranteed Runway</span>
+                                <span class="text-2xl font-bold" style="color: var(--accent-blue);">5.5 Years</span>
                             </div>
                             <div class="timeline-bar"><div class="timeline-fill" style="width: 100%;"></div></div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="p-4 bg-white rounded-xl border border-gray-100">
-                                <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">STEM OPT</p>
-                                <p class="text-xl font-bold">3.0 Yrs</p>
+                            <div class="p-4 bg-white rounded-xl border border-gray-200">
+                                <p class="text-xs font-medium text-gray-500 mb-1">STEM OPT</p>
+                                <p class="text-xl font-bold" style="color: var(--accent-blue);">3.0 Yrs</p>
                             </div>
-                            <div class="p-4 bg-white rounded-xl border border-gray-100">
-                                <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">H1B Left</p>
-                                <p class="text-xl font-bold">2.5 Yrs</p>
+                            <div class="p-4 bg-white rounded-xl border border-gray-200">
+                                <p class="text-xs font-medium text-gray-500 mb-1">H1B Left</p>
+                                <p class="text-xl font-bold" style="color: var(--accent-blue);">2.5 Yrs</p>
                             </div>
                         </div>
 
                         <div class="pt-6 border-t border-gray-200">
-                            <div class="flex justify-between items-end mb-2 text-gray-300">
-                                <span class="text-[10px] font-black uppercase tracking-widest">Industry Avg Tenure</span>
-                                <span class="text-sm font-bold">1.8 Yrs</span>
+                            <div class="flex justify-between items-end mb-3 text-gray-400">
+                                <span class="text-xs font-medium">Industry Avg Tenure</span>
+                                <span class="text-sm font-medium">1.8 Yrs</span>
                             </div>
-                            <div class="timeline-bar"><div class="timeline-fill" style="width: 32%; background: #DDD;"></div></div>
+                            <div class="timeline-bar"><div class="timeline-fill" style="width: 32%; background: #D1D5DB;"></div></div>
                         </div>
                     </div>
                 </div>
@@ -208,19 +210,19 @@ ${pairBlocks}
     </section>
 
     <!-- FOOTER: CALL TO ACTION -->
-    <footer class="py-24 px-6 border-t border-gray-100 bg-white text-center">
+    <footer class="py-32 px-6 border-t border-gray-200 bg-white text-center">
         <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl md:text-5xl font-extrabold tracking-tighter mb-4 italic">Only one Candice</h2>
-            <p class="text-gray-400 text-xl font-medium mb-12">Once she's taken, she's off the shelf</p>
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4 text-gray-900">Let's start a conversation</h2>
+            <p class="text-gray-600 text-lg font-normal mb-12">I'd love to discuss how I can contribute to ${escapeHtml(companyName)}</p>
 
             <div class="flex flex-col items-center space-y-4">
-                <a href="https://linkedin.com/in/candiceshen" target="_blank" class="btn-outline px-8 py-3 rounded-xl text-sm font-bold w-full max-w-sm flex items-center justify-between group">
-                    <span>View the boring LinkedIn</span>
-                    <span class="text-gray-400 group-hover:text-black transition-colors ml-2 font-normal">linkedin.com/in/candiceshen</span>
+                <a href="https://linkedin.com/in/candiceshen" target="_blank" class="btn-outline px-8 py-3 rounded-xl text-sm font-medium w-full max-w-sm flex items-center justify-between group">
+                    <span>LinkedIn Profile</span>
+                    <span class="text-gray-500 group-hover:text-gray-700 transition-colors ml-2 font-normal">linkedin.com/in/candiceshen</span>
                 </a>
-                <a href="https://candiceshen.com" target="_blank" class="btn-outline px-8 py-3 rounded-xl text-sm font-bold w-full max-w-sm flex items-center justify-between group">
-                    <span>View the fun personal website</span>
-                    <span class="text-gray-400 group-hover:text-black transition-colors ml-2 font-normal">candiceshen.com</span>
+                <a href="https://candiceshen.com" target="_blank" class="btn-outline px-8 py-3 rounded-xl text-sm font-medium w-full max-w-sm flex items-center justify-between group">
+                    <span>Personal Website</span>
+                    <span class="text-gray-500 group-hover:text-gray-700 transition-colors ml-2 font-normal">candiceshen.com</span>
                 </a>
             </div>
         </div>
@@ -254,9 +256,9 @@ ${pairBlocks}
 
     <!-- COPYRIGHT FOOTER -->
     <footer class="py-8 px-6 border-t border-gray-200 bg-white text-center">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-3xl mx-auto">
             <p class="text-gray-500 text-sm mb-2">© 2026 Candice Shen. All rights reserved.</p>
-            <p class="text-gray-400 text-xs">Built with AI while backed by 100% true info</p>
+            <p class="text-gray-400 text-xs">Built with care and AI assistance</p>
         </div>
     </footer>
 </body>

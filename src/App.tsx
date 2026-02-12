@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { getPitchHtml } from './lib/template'
 import { deployPitch } from './lib/deploy'
 import { generatePitch, type GeneratedPitch } from './lib/generate'
+import { generateCoverLetterPdf } from './lib/pdf'
 
 function App() {
   const [jdText, setJdText] = useState('')
@@ -54,6 +55,29 @@ function App() {
     } finally {
       setDeploying(false)
     }
+  }
+
+  const handleDownloadPdf = () => {
+    if (!generated) return
+
+    // Construct the pitch URL
+    const cleanCompany = generated.companyName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+    const cleanRole = generated.roleName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+    const pitchUrl = `https://candiceshen.com/pitch/${cleanCompany}-${cleanRole}`
+
+    generateCoverLetterPdf({
+      companyName: generated.companyName,
+      roleName: generated.roleName,
+      tailoredAboutMe: generated.tailoredAboutMe,
+      pairs: generated.pairs,
+      pitchUrl,
+    })
   }
 
   return (
@@ -131,6 +155,13 @@ function App() {
                   className="px-5 py-2.5 rounded-lg border border-gray-300 bg-white font-semibold text-sm text-black hover:bg-gray-50 transition"
                 >
                   Open preview in new tab
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDownloadPdf}
+                  className="px-5 py-2.5 rounded-lg border border-gray-300 bg-white font-semibold text-sm text-black hover:bg-gray-50 transition"
+                >
+                  Download PDF Cover Letter
                 </button>
                 <button
                   type="button"

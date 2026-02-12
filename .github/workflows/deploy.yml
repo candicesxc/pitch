@@ -34,7 +34,29 @@ jobs:
       
       - name: Build
         run: npm run build
-      
+
+      - name: Copy generated pitch pages to dist
+        run: |
+          # Copy all generated pitch folders (those with index.html) to dist
+          shopt -s nullglob
+          for dir in */; do
+            # Strip trailing slash
+            dirname="${dir%/}"
+            # Skip known build/config directories
+            case "$dirname" in
+              node_modules|dist|src|public|.github|.git)
+                continue
+                ;;
+            esac
+            # Check if directory contains index.html
+            if [ -f "${dirname}/index.html" ]; then
+              echo "Copying ${dirname}/ to dist/"
+              cp -r "${dirname}" dist/
+            fi
+          done
+          echo "Contents of dist:"
+          ls -la dist/
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
