@@ -116,7 +116,7 @@ export const RefineModal: React.FC<RefineModalProps> = ({
               <p className="text-sm text-red-700">{error}</p>
               <button
                 type="button"
-                onClick={() => handleSubmit({ preventDefault: () => {} } as React.FormEvent)}
+                onClick={() => onSubmit(company.trim(), role.trim(), instructions.trim())}
                 className="mt-2 text-xs text-red-600 hover:text-red-700 underline"
               >
                 Try again
