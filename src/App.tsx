@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { getPitchHtml } from './lib/template'
 import { deployPitch } from './lib/deploy'
 import { generatePitch, type GeneratedPitch } from './lib/generate'
 import { generateCoverLetterPdf } from './lib/pdf'
+import { RefineModal } from './components/RefineModal'
 
 function App() {
   const [jdText, setJdText] = useState('')
@@ -12,6 +13,11 @@ function App() {
   const [generatedHtml, setGeneratedHtml] = useState<string | null>(null)
   const [deploying, setDeploying] = useState(false)
   const [deployMessage, setDeployMessage] = useState<string | null>(null)
+  const [originalJd, setOriginalJd] = useState('')
+  const [showRefineModal, setShowRefineModal] = useState(false)
+  const [isRegenerating, setIsRegenerating] = useState(false)
+  const [refineError, setRefineError] = useState('')
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>()
 
   const handleGenerate = async () => {
     setError(null)
@@ -20,6 +26,7 @@ function App() {
     setLoading(true)
     try {
       const pitch = await generatePitch(jdText)
+      setOriginalJd(jdText)
       setGenerated(pitch)
       const html = getPitchHtml({
         companyName: pitch.companyName,
@@ -78,6 +85,40 @@ function App() {
       pairs: generated.pairs,
       pitchUrl,
     })
+  }
+
+  const handleRefineSubmit = async (company: string, role: string, instructions: string) => {
+    if (isRegenerating) return
+
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
+
+    setIsRegenerating(true)
+    setRefineError('')
+
+    try {
+      const result = await generatePitch(originalJd, instructions)
+
+      // Override extracted values with user inputs
+      const updatedPitch: GeneratedPitch = {
+        ...result,
+        companyName: company || result.companyName,
+        roleName: role || result.roleName,
+      }
+
+      setGenerated(updatedPitch)
+      const html = getPitchHtml({
+        companyName: updatedPitch.companyName,
+        roleName: updatedPitch.roleName,
+        tailoredAboutMe: updatedPitch.tailoredAboutMe,
+        pairs: updatedPitch.pairs,
+      })
+      setGeneratedHtml(html)
+      setShowRefineModal(false)
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to regenerate pitch'
+      setRefineError(message)
+      setIsRegenerating(false)
+    }
   }
 
   return (
@@ -158,6 +199,13 @@ function App() {
                 </button>
                 <button
                   type="button"
+                  onClick={() => setShowRefineModal(true)}
+                  className="px-5 py-2.5 rounded-lg border border-gray-300 bg-white font-semibold text-sm text-black hover:bg-gray-50 transition"
+                >
+                  Refine Company/Role
+                </button>
+                <button
+                  type="button"
                   onClick={handleDownloadPdf}
                   className="px-5 py-2.5 rounded-lg border border-gray-300 bg-white font-semibold text-sm text-black hover:bg-gray-50 transition"
                 >
@@ -202,6 +250,19 @@ function App() {
             </div>
           </>
         )}
+
+        <RefineModal
+          isOpen={showRefineModal}
+          companyName={generated?.companyName || 'the company'}
+          roleName={generated?.roleName || 'this position'}
+          isLoading={isRegenerating}
+          error={refineError}
+          onSubmit={handleRefineSubmit}
+          onClose={() => {
+            setShowRefineModal(false)
+            setRefineError('')
+          }}
+        />
       </main>
     </div>
   )
