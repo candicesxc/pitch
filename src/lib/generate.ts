@@ -47,7 +47,7 @@ function getAchievementsList(): string[] {
 /**
  * Fallback: pick 4 requirements from JD (bullet-like or sentence-like) and match to achievements by keyword overlap.
  */
-function fallbackGenerate(jdText: string): GeneratedPitch {
+function fallbackGenerate(jdText: string, _customInstructions?: string): GeneratedPitch {
   const { companyName, roleName } = extractCompanyAndRole(jdText);
   const achievements = getAchievementsList();
 
@@ -87,7 +87,7 @@ function fallbackGenerate(jdText: string): GeneratedPitch {
 /**
  * Call OpenAI to analyze JD and generate pitch content. Uses career data as context.
  */
-async function aiGenerate(jdText: string): Promise<GeneratedPitch> {
+async function aiGenerate(jdText: string, customInstructions?: string): Promise<GeneratedPitch> {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
   if (!apiKey) return fallbackGenerate(jdText);
 
@@ -209,7 +209,17 @@ CRITICAL RULES FOR CONTENT:
    - Avoid starting multiple sentences the same way ("I did...", "I built...", "I generated...")
    - Mix active voice with occasional variation
 
-6. Write like a human storyteller, not a corporate robot. Each achievement should have its own personality and rhythm.`;
+6. Write like a human storyteller, not a corporate robot. Each achievement should have its own personality and rhythm.
+
+${
+  customInstructions
+    ? `CUSTOM REFINEMENT INSTRUCTIONS:
+The user has requested the following refinements to the pitch:
+${customInstructions}
+
+Please incorporate these refinement requests into the generated pitch while maintaining the core structure and all important details from the career data.`
+    : ''
+}`;
 
   const userPrompt = `Job description:\n\n${jdText.slice(0, 12000)}`;
 
@@ -266,11 +276,11 @@ CRITICAL RULES FOR CONTENT:
 /**
  * Generate pitch from JD. Uses OpenAI if VITE_OPENAI_API_KEY is set; otherwise fallback.
  */
-export async function generatePitch(jdText: string): Promise<GeneratedPitch> {
+export async function generatePitch(jdText: string, customInstructions?: string): Promise<GeneratedPitch> {
   if (!jdText.trim()) throw new Error('Please paste a job description.');
   try {
-    return await aiGenerate(jdText);
+    return await aiGenerate(jdText, customInstructions);
   } catch {
-    return fallbackGenerate(jdText);
+    return fallbackGenerate(jdText, customInstructions);
   }
 }
