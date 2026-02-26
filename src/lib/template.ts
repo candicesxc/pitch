@@ -13,18 +13,19 @@ export function getPitchHtml(values: {
 
   const pairBlocks = pairs
     .map(
-      (p) => `
-                <!-- Item ${pairs.indexOf(p) + 1} -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-                    <div class="jd-quote">
-                        <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color: var(--accent-blue);">You want</p>
-                        <p class="text-lg font-normal text-gray-700 italic leading-relaxed">"${escapeHtml(p.jdRequirement)}"</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-medium text-gray-900 mb-3">I delivered</p>
-                        <p class="text-gray-600 leading-relaxed font-normal">
-                            ${escapeHtml(p.myAchievement)}
-                        </p>
+      (p, i) => `
+                <!-- Item ${i + 1} -->
+                <div class="pair-item">
+                    <div class="pair-number">${String(i + 1).padStart(2, '0')}</div>
+                    <div class="pair-grid">
+                        <div class="jd-quote">
+                            <p class="label-tag">You want</p>
+                            <p class="quote-text">"${escapeHtml(p.jdRequirement)}"</p>
+                        </div>
+                        <div class="delivered-block">
+                            <p class="label-tag label-dark">I delivered</p>
+                            <p class="delivered-text">${escapeHtml(p.myAchievement)}</p>
+                        </div>
                     </div>
                 </div>`
     )
@@ -39,228 +40,587 @@ export function getPitchHtml(values: {
     <script src="https://cdn.tailwindcss.com"><\/script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent-blue: #4281A4;
-            --accent-blue-hover: #35677F;
+            --yellow: #FFE600;
+            --yellow-dark: #E6CF00;
+            --black: #0A0A0A;
+            --gray-dark: #1A1A1A;
+            --gray-mid: #555555;
+            --gray-light: #F2F2F2;
+            --white: #FFFFFF;
         }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
         body {
-            font-family: 'Ubuntu', sans-serif;
-            background-color: #FFFFFF;
-            color: #1A1A1A;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
         }
-        .subtle-bg { background-color: #FAFAFA; }
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid #E5E7EB;
+
+        /* ── NAV ── */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 50;
+            background: var(--black);
+            border-bottom: 1px solid #222;
         }
-        .jd-quote {
-            border-left: 3px solid var(--accent-blue);
-            padding-left: 1.25rem;
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .timeline-bar {
-            height: 12px;
-            background: #E5E7EB;
-            border-radius: 6px;
-            position: relative;
+        .nav-brand {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: 0.02em;
+        }
+        .nav-brand span { color: #666; margin: 0 0.5rem; }
+        .nav-cta {
+            background: var(--yellow);
+            color: var(--black);
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 2px;
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: background 0.15s ease, transform 0.15s ease;
+            cursor: pointer;
+        }
+        .nav-cta:hover { background: var(--yellow-dark); transform: translateY(-1px); }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 140px 2rem 80px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gray-mid);
+            margin-bottom: 2rem;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 2px;
+            background: var(--yellow);
+        }
+        .hero-headline {
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            color: var(--black);
+            margin-bottom: 2.5rem;
+        }
+        .hero-headline .highlight {
+            background: var(--yellow);
+            padding: 0 0.15em;
+            display: inline;
+        }
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--gray-mid);
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 620px;
+        }
+        .hero-sub strong {
+            color: var(--black);
+            font-weight: 700;
+        }
+
+        /* ── SECTION LABELS ── */
+        .section-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: var(--yellow);
+            color: var(--black);
+            padding: 0.3rem 0.75rem;
+            border-radius: 2px;
+            margin-bottom: 3rem;
+        }
+
+        /* ── ABOUT SECTION ── */
+        .about-section {
+            background: var(--gray-light);
+            border-top: 3px solid var(--yellow);
+            padding: 80px 2rem;
+        }
+        .about-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .about-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            line-height: 1.75;
+            color: #333;
+            font-weight: 400;
+            max-width: 780px;
+        }
+        .about-text p + p { margin-top: 1.25rem; }
+
+        /* ── DELIVERY SECTION ── */
+        .delivery-section {
+            padding: 100px 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .delivery-headline {
+            font-size: clamp(1.75rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 5rem;
+            max-width: 700px;
+        }
+        .delivery-headline em {
+            font-style: normal;
+            color: var(--gray-mid);
+        }
+
+        /* ── PAIR ITEMS ── */
+        .pair-item {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 0 2rem;
+            padding: 3rem 0;
+            border-top: 1px solid #E5E5E5;
+        }
+        .pair-item:last-child { border-bottom: 1px solid #E5E5E5; }
+        .pair-number {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #CCC;
+            letter-spacing: 0.05em;
+            padding-top: 0.2rem;
+        }
+        .pair-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        @media (max-width: 768px) {
+            .pair-item { grid-template-columns: 1fr; }
+            .pair-number { display: none; }
+            .pair-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
+        .label-tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--black);
+            background: var(--yellow);
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2px;
+            margin-bottom: 1rem;
+        }
+        .label-dark {
+            background: var(--black);
+            color: var(--yellow);
+        }
+        .quote-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #222;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        .delivered-text {
+            font-size: 1.1rem;
+            color: var(--gray-mid);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+        .pair-footnote {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.8rem;
+            color: #AAA;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── SPONSORSHIP ── */
+        .sponsor-section {
+            background: var(--black);
+            color: var(--white);
+            padding: 100px 2rem;
+        }
+        .sponsor-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .sponsor-headline {
+            font-size: clamp(1.75rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 4rem;
+            max-width: 640px;
+        }
+        .sponsor-headline .highlight { background: var(--yellow); color: var(--black); padding: 0 0.1em; }
+        .sponsor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        @media (max-width: 768px) { .sponsor-grid { grid-template-columns: 1fr; gap: 3rem; } }
+        .sponsor-bullets {
+            display: flex;
+            flex-direction: row;
+            gap: 2.5rem;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid #2A2A2A;
+        }
+        @media (max-width: 768px) { .sponsor-bullets { flex-direction: column; gap: 0; } }
+        .sponsor-item {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid #2A2A2A;
+        }
+        .sponsor-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .sponsor-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--yellow);
+            border-radius: 2px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sponsor-icon svg { width: 18px; height: 18px; }
+        .sponsor-item h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.35rem;
+        }
+        .sponsor-item p {
+            font-size: 0.85rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        /* Stats card */
+        .stats-card {
+            background: #111;
+            border: 1px solid #2A2A2A;
+            border-radius: 4px;
+            padding: 2rem;
+        }
+        .stat-row {
+            margin-bottom: 2rem;
+        }
+        .stat-row:last-child { margin-bottom: 0; }
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: var(--yellow);
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+        .stat-bar {
+            height: 4px;
+            background: #2A2A2A;
+            border-radius: 2px;
             overflow: hidden;
         }
-        .timeline-fill {
+        .stat-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue) 0%, #5A9AC4 100%);
-            border-radius: 6px;
+            background: var(--yellow);
+            border-radius: 2px;
             width: 0%;
             transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-outline {
-            border: 1px solid #D1D5DB;
-            transition: all 0.2s ease;
+        .stat-sub-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
-        .btn-outline:hover {
-            border-color: var(--accent-blue);
-            background: rgba(66, 129, 164, 0.05);
+        .stat-sub {
+            background: #1A1A1A;
+            border: 1px solid #2A2A2A;
+            border-radius: 2px;
+            padding: 1rem;
         }
+        .stat-sub .stat-label { color: #555; }
+        .stat-sub .stat-value { font-size: 1.5rem; }
+        .stat-avg-row {
+            border-top: 1px solid #2A2A2A;
+            padding-top: 1.25rem;
+            margin-top: 1.5rem;
+        }
+        .stat-avg-row .stat-value { font-size: 1.25rem; color: #444; }
+
+        /* ── FOOTER ── */
+        .footer-cta {
+            padding: 100px 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .footer-left { display: flex; flex-direction: column; gap: 1rem; }
+        @media (max-width: 768px) {
+            .footer-cta { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
+            .footer-left { align-items: center; }
+        }
+        .footer-headline {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            color: var(--black);
+        }
+        .footer-headline .highlight { background: var(--yellow); padding: 0 0.1em; }
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            width: 100%;
+            max-width: 420px;
+        }
+        .footer-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border: 1.5px solid #E5E5E5;
+            border-radius: 2px;
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: border-color 0.15s, background 0.15s;
+            cursor: pointer;
+        }
+        .footer-link:hover { border-color: var(--yellow); background: #FFFDE0; }
+        .footer-link-url {
+            font-size: 0.8rem;
+            color: #AAA;
+            font-weight: 400;
+        }
+        .copyright {
+            padding: 2rem;
+            border-top: 1px solid #E5E5E5;
+            text-align: center;
+        }
+        .copyright p { font-size: 0.75rem; color: #AAA; }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-nav">
-        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <span class="font-semibold tracking-tight text-lg text-gray-900">Candice Shen <span class="text-gray-400">•</span> ${escapeHtml(companyName)}</span>
-            </div>
-            <div class="flex space-x-4">
-                <a href="mailto:candice.shen@yale.edu" class="text-white px-5 py-2 rounded-lg text-sm font-medium transition-all" style="background-color: var(--accent-blue);" onmouseover="this.style.backgroundColor='var(--accent-blue-hover)'" onmouseout="this.style.backgroundColor='var(--accent-blue)'">
-                    Message Me
-                </a>
-            </div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-brand">Candice Shen <span>×</span> ${escapeHtml(companyName)}</div>
+            <a href="mailto:candice.shen@yale.edu" class="nav-cta">Message Me</a>
         </div>
     </nav>
 
     <!-- SECTION 1: HERO -->
-    <section class="pt-40 pb-32 px-6">
-        <div class="max-w-3xl mx-auto">
-            <p class="text-sm font-medium text-gray-500 mb-8 text-center md:text-left">To the hiring team at ${escapeHtml(companyName)}</p>
-            <h1 class="text-5xl md:text-6xl font-semibold tracking-tight leading-tight mb-10 text-center md:text-left text-gray-900">
-                I reimagined the cover letter
-            </h1>
-            <p class="text-xl md:text-2xl text-gray-600 font-normal leading-relaxed text-center md:text-left">
-                This interactive pitch shows exactly why I'm the right fit for <span class="font-bold" style="color: var(--accent-blue);">${escapeHtml(roleName)}</span> at <span class="font-bold" style="color: var(--accent-blue);">${escapeHtml(companyName)}</span>
-            </p>
+    <section class="hero">
+        <div class="hero-eyebrow">To the hiring team at ${escapeHtml(companyName)}</div>
+        <h1 class="hero-headline">
+            I reimagined the<br>
+            <span class="highlight">cover letter</span>
+        </h1>
+        <p class="hero-sub">
+            This interactive pitch shows exactly why I'm the right fit for
+            <strong>${escapeHtml(roleName)}</strong> at <strong>${escapeHtml(companyName)}</strong>.
+        </p>
+    </section>
+
+    <!-- SECTION 2: ABOUT -->
+    <section class="about-section">
+        <div class="about-inner">
+            <div class="section-label">About Me</div>
+            <div class="about-text">
+                ${tailoredAboutMe.split('\n\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}
+            </div>
         </div>
     </section>
 
-    <!-- SECTION 2: THE DELIVERY -->
-    <section id="solutions" class="py-32 subtle-bg border-y border-gray-200">
-        <div class="max-w-3xl mx-auto px-6">
-            <!-- About Me Block -->
-            <div class="mb-32">
-                <p class="text-sm font-medium text-gray-500 mb-6">About Me</p>
-                <div class="text-xl md:text-2xl text-gray-700 leading-loose font-normal">
-                    ${tailoredAboutMe.split('\n\n').map(p => `<p class="mb-4">${escapeHtml(p)}</p>`).join('')}
-                </div>
-            </div>
+    <!-- SECTION 3: THE DELIVERY -->
+    <section id="solutions">
+        <div class="delivery-section">
+            <h2 class="delivery-headline">
+                How I can deliver what<br>
+                <em>${escapeHtml(companyName)} asked for</em>
+            </h2>
 
-            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-20 text-gray-900">How I can deliver what ${escapeHtml(companyName)} asked for</h2>
-
-            <div class="space-y-24">
+            <div>
 ${pairBlocks}
             </div>
 
-            <div class="mt-24 text-center">
-                <p class="text-sm font-normal text-gray-500">Work samples and references available upon request</p>
-            </div>
+            <p class="pair-footnote">Work samples and references available upon request</p>
         </div>
     </section>
 
-    <!-- SECTION 3: SPONSORSHIP (STABILITY) -->
-    <section id="runway" class="py-32 px-6">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-20 leading-tight text-center md:text-left text-gray-900">The "sponsorship" question you're probably wondering about</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-                <div class="space-y-10">
-                    <!-- Tightened Stability Item -->
-                    <div class="flex items-start space-x-4">
-                        <span class="text-2xl">🛡️</span>
-                        <div>
-                            <h4 class="font-bold text-lg mb-1">Risk-Free Stability</h4>
-                            <p class="text-gray-500 text-sm leading-relaxed">
-                                Low-cost cap-exempt H1B transfer & STEM OPT. Zero lottery risk, 5.5 years of guaranteed runway. Longer than most tech tenures.
-                            </p>
+    <!-- SECTION 4: SPONSORSHIP -->
+    <section id="runway" class="sponsor-section">
+        <div class="sponsor-inner">
+            <div class="section-label" style="background: #222; color: var(--yellow);">Visa Sponsorship</div>
+
+            <!-- Headline + Stats card side by side -->
+            <div class="sponsor-grid">
+                <h2 class="sponsor-headline">
+                    The <span class="highlight">"sponsorship"</span> question<br>
+                    you're probably wondering about
+                </h2>
+
+                <div class="stats-card">
+                    <div class="stat-row">
+                        <div class="stat-label">Total Guaranteed Runway</div>
+                        <div class="stat-value">5.5 Yrs</div>
+                        <div class="stat-bar"><div class="stat-bar-fill" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="stat-sub-grid">
+                        <div class="stat-sub">
+                            <div class="stat-label">STEM OPT</div>
+                            <div class="stat-value">3.0 Yrs</div>
+                        </div>
+                        <div class="stat-sub">
+                            <div class="stat-label">H1B Left</div>
+                            <div class="stat-value">2.5 Yrs</div>
                         </div>
                     </div>
-
-                    <!-- Tightened Availability Item 1 -->
-                    <div class="flex items-start space-x-4">
-                        <span class="text-2xl">🚀</span>
-                        <div>
-                            <h4 class="font-bold text-lg mb-1">Full time starting May</h4>
-                            <p class="text-gray-500 text-sm">Available to join full time in May 2026.</p>
-                        </div>
-                    </div>
-
-                    <!-- Tightened Availability Item 2 -->
-                    <div class="flex items-start space-x-4">
-                        <span class="text-2xl">💻</span>
-                        <div>
-                            <h4 class="font-bold text-lg mb-1">Available now</h4>
-                            <p class="text-gray-500 text-sm">Open to part time work (NYC or Remote) until then.</p>
-                        </div>
+                    <div class="stat-avg-row">
+                        <div class="stat-label">Industry Avg Tenure</div>
+                        <div class="stat-value">1.8 Yrs</div>
+                        <div class="stat-bar"><div class="stat-bar-fill" style="width: 32%; background: #333;"></div></div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Visual Breakdown -->
-                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 shadow-sm">
-                    <div class="space-y-8">
-                        <div>
-                            <div class="flex justify-between items-end mb-3">
-                                <span class="text-xs font-medium text-gray-500">Total Guaranteed Runway</span>
-                                <span class="text-2xl font-bold" style="color: var(--accent-blue);">5.5 Years</span>
-                            </div>
-                            <div class="timeline-bar"><div class="timeline-fill" style="width: 100%;"></div></div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="p-4 bg-white rounded-xl border border-gray-200">
-                                <p class="text-xs font-medium text-gray-500 mb-1">STEM OPT</p>
-                                <p class="text-xl font-bold" style="color: var(--accent-blue);">3.0 Yrs</p>
-                            </div>
-                            <div class="p-4 bg-white rounded-xl border border-gray-200">
-                                <p class="text-xs font-medium text-gray-500 mb-1">H1B Left</p>
-                                <p class="text-xl font-bold" style="color: var(--accent-blue);">2.5 Yrs</p>
-                            </div>
-                        </div>
-
-                        <div class="pt-6 border-t border-gray-200">
-                            <div class="flex justify-between items-end mb-3 text-gray-400">
-                                <span class="text-xs font-medium">Industry Avg Tenure</span>
-                                <span class="text-sm font-medium">1.8 Yrs</span>
-                            </div>
-                            <div class="timeline-bar"><div class="timeline-fill" style="width: 32%; background: #D1D5DB;"></div></div>
-                        </div>
+            <!-- Bullet list below -->
+            <div class="sponsor-bullets">
+                <div class="sponsor-item">
+                    <div class="sponsor-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                        <h4>Risk-Free Stability</h4>
+                        <p>Low-cost cap-exempt H1B transfer &amp; STEM OPT. Zero lottery risk, 5.5 years of guaranteed runway. Longer than most tech tenures.</p>
+                    </div>
+                </div>
+                <div class="sponsor-item">
+                    <div class="sponsor-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                    </div>
+                    <div>
+                        <h4>Full time starting May</h4>
+                        <p>Available to join full time in May 2026.</p>
+                    </div>
+                </div>
+                <div class="sponsor-item">
+                    <div class="sponsor-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <div>
+                        <h4>Available now</h4>
+                        <p>Open to part time work (NYC or Remote) until then.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER: CALL TO ACTION -->
-    <footer class="py-32 px-6 border-t border-gray-200 bg-white text-center">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4 text-gray-900">Let's start a conversation</h2>
-            <p class="text-gray-600 text-lg font-normal mb-12">I'd love to discuss how I can contribute to ${escapeHtml(companyName)}</p>
-
-            <div class="flex flex-col items-center space-y-4">
-                <a href="https://linkedin.com/in/candiceshen" target="_blank" class="btn-outline px-8 py-3 rounded-xl text-sm font-medium w-full max-w-sm flex items-center justify-between group">
+    <!-- FOOTER CTA -->
+    <footer>
+        <div class="footer-cta">
+            <div class="footer-left">
+                <h2 class="footer-headline">
+                    Let's start a<br>
+                    <span class="highlight">conversation</span>
+                </h2>
+                <p style="color: var(--gray-mid); font-size: 1rem;">I'd love to discuss how I can contribute to ${escapeHtml(companyName)}.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://linkedin.com/in/candiceshen" target="_blank" class="footer-link">
                     <span>LinkedIn Profile</span>
-                    <span class="text-gray-500 group-hover:text-gray-700 transition-colors ml-2 font-normal">linkedin.com/in/candiceshen</span>
+                    <span class="footer-link-url">linkedin.com/in/candiceshen</span>
                 </a>
-                <a href="https://candiceshen.com" target="_blank" class="btn-outline px-8 py-3 rounded-xl text-sm font-medium w-full max-w-sm flex items-center justify-between group">
+                <a href="https://candiceshen.com" target="_blank" class="footer-link">
                     <span>Personal Website</span>
-                    <span class="text-gray-500 group-hover:text-gray-700 transition-colors ml-2 font-normal">candiceshen.com</span>
+                    <span class="footer-link-url">candiceshen.com</span>
                 </a>
             </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 Candice Shen · Built with care and AI assistance</p>
         </div>
     </footer>
 
     <script>
+        // Animate sections on scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = "1";
                     entry.target.style.transform = "translateY(0)";
-                    
+
                     if (entry.target.id === 'runway') {
                         setTimeout(() => {
-                            const fills = entry.target.querySelectorAll('.timeline-fill');
-                            fills[0].style.width = '100%';
-                            fills[1].style.width = '32%';
+                            const fills = entry.target.querySelectorAll('.stat-bar-fill');
+                            if (fills[0]) fills[0].style.width = '100%';
+                            if (fills[1]) fills[1].style.width = '32%';
                         }, 300);
                     }
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.08 });
 
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = "0";
-            section.style.transform = "translateY(20px)";
-            section.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out";
-            observer.observe(section);
+        document.querySelectorAll('section, footer').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(28px)";
+            el.style.transition = "opacity 0.7s ease-out, transform 0.7s ease-out";
+            observer.observe(el);
         });
     </script>
 
-    <!-- COPYRIGHT FOOTER -->
-    <footer class="py-8 px-6 border-t border-gray-200 bg-white text-center">
-        <div class="max-w-3xl mx-auto">
-            <p class="text-gray-500 text-sm mb-2">© 2026 Candice Shen. All rights reserved.</p>
-            <p class="text-gray-400 text-xs">Built with care and AI assistance</p>
-        </div>
-    </footer>
 </body>
 </html>`;
 }
