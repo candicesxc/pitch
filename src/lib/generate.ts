@@ -11,16 +11,34 @@ export type GeneratedPitch = {
  * Extract company and role from JD text (simple heuristics).
  */
 function extractCompanyAndRole(jdText: string): { companyName: string; roleName: string } {
-  const firstLines = jdText.slice(0, 800).split(/\n/).map((l) => l.trim()).filter(Boolean);
+  const firstLines = jdText.slice(0, 1200).split(/\n/).map((l) => l.trim()).filter(Boolean);
   let companyName = 'the company';
   let roleName = 'this position';
+
   for (const line of firstLines) {
+    // Pattern 1: "at Company" or "@ Company"
     const at = line.match(/\b(at|@)\s+([A-Z][A-Za-z0-9\s&-]+?)(?:\s*[|\-]|$)/i);
     if (at?.[2]) {
       companyName = at[2].trim();
       break;
     }
-    if (line.length < 80 && /[A-Z][a-z]+/.test(line) && !line.startsWith('•') && !/^\d+\./.test(line)) {
+
+    // Pattern 2: "About Company" (e.g., "About KnowBe4")
+    const about = line.match(/^About\s+([A-Z][A-Za-z0-9\s&-]+?)(?:\s+|$)/);
+    if (about?.[1]) {
+      companyName = about[1].trim();
+      break;
+    }
+
+    // Pattern 3: Company name at start of line followed by description (e.g., "KnowBe4 is a...")
+    const startWithCompany = line.match(/^([A-Z][A-Za-z0-9\s&-]+?)\s+(?:is|joins|at|has|provides|offers)/i);
+    if (startWithCompany?.[1] && startWithCompany[1].length > 2 && startWithCompany[1].length < 50) {
+      companyName = startWithCompany[1].trim();
+      break;
+    }
+
+    // Pattern 4: Extract role from short lines (job titles tend to be short)
+    if (line.length < 80 && /[A-Z][a-z]+/.test(line) && !line.startsWith('•') && !/^\d+\./.test(line) && !line.match(/^(Remote|United States|Full-time)/i)) {
       roleName = line;
       break;
     }
@@ -87,7 +105,12 @@ function fallbackGenerate(jdText: string, _customInstructions?: string): Generat
 /**
  * Call OpenAI to analyze JD and generate pitch content. Uses career data as context.
  */
-async function aiGenerate(jdText: string, customInstructions?: string): Promise<GeneratedPitch> {
+async function aiGenerate(
+  jdText: string,
+  customInstructions?: string,
+  userProvidedCompany?: string,
+  userProvidedRole?: string
+): Promise<GeneratedPitch> {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
   if (!apiKey) return fallbackGenerate(jdText);
 
@@ -212,6 +235,17 @@ CRITICAL RULES FOR CONTENT:
 6. Write like a human storyteller, not a corporate robot. Each achievement should have its own personality and rhythm.
 
 ${
+  userProvidedCompany || userProvidedRole
+    ? `USER-PROVIDED COMPANY AND ROLE:
+The user has manually corrected the following values (use these EXACTLY instead of extracting):
+- Company: "${userProvidedCompany || 'not provided'}"
+- Role: "${userProvidedRole || 'not provided'}"
+
+IMPORTANT: Use these exact values in companyName and roleName fields. Also ensure all generated content (tailoredAboutMe, pairs) references the correct company name "${userProvidedCompany || ''}", not any auto-extracted value.`
+    : ''
+}
+
+${
   customInstructions
     ? `CUSTOM REFINEMENT INSTRUCTIONS:
 The user has requested the following refinements to the pitch:
@@ -275,11 +309,17 @@ Please incorporate these refinement requests into the generated pitch while main
 
 /**
  * Generate pitch from JD. Uses OpenAI if VITE_OPENAI_API_KEY is set; otherwise fallback.
+ * Optionally accepts user-provided company/role to ensure consistent extraction.
  */
-export async function generatePitch(jdText: string, customInstructions?: string): Promise<GeneratedPitch> {
+export async function generatePitch(
+  jdText: string,
+  customInstructions?: string,
+  userProvidedCompany?: string,
+  userProvidedRole?: string
+): Promise<GeneratedPitch> {
   if (!jdText.trim()) throw new Error('Please paste a job description.');
   try {
-    return await aiGenerate(jdText, customInstructions);
+    return await aiGenerate(jdText, customInstructions, userProvidedCompany, userProvidedRole);
   } catch {
     return fallbackGenerate(jdText, customInstructions);
   }

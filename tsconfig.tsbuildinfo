@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/lib/cover-letter.ts","./src/lib/deploy.ts","./src/lib/generate.ts","./src/lib/pdf.ts","./src/lib/template.ts"],"version":"5.6.3"}
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/refinemodal.tsx","./src/lib/cover-letter.ts","./src/lib/deploy.ts","./src/lib/generate.ts","./src/lib/pdf.ts","./src/lib/template.ts"],"version":"5.6.3"}

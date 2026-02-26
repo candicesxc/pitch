@@ -96,9 +96,10 @@ function App() {
     setRefineError('')
 
     try {
-      const result = await generatePitch(originalJd, instructions)
+      // Pass user-provided company/role to AI so it uses them in all generated content
+      const result = await generatePitch(originalJd, instructions, company, role)
 
-      // Override extracted values with user inputs
+      // AI should now have used the correct company/role, but ensure they're set
       const updatedPitch: GeneratedPitch = {
         ...result,
         companyName: company || result.companyName,
