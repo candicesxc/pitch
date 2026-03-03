@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candice Shen | Pitch for DoiT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --yellow: #FFE600;
+            --yellow-dark: #E6CF00;
+            --black: #0A0A0A;
+            --gray-dark: #1A1A1A;
+            --gray-mid: #555555;
+            --gray-light: #F2F2F2;
+            --white: #FFFFFF;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAV ── */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 50;
+            background: var(--black);
+            border-bottom: 1px solid #222;
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: 0.02em;
+        }
+        .nav-brand span { color: #666; margin: 0 0.5rem; }
+        .nav-cta {
+            background: var(--yellow);
+            color: var(--black);
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 2px;
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: background 0.15s ease, transform 0.15s ease;
+            cursor: pointer;
+        }
+        .nav-cta:hover { background: var(--yellow-dark); transform: translateY(-1px); }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 140px 2rem 80px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gray-mid);
+            margin-bottom: 2rem;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 2px;
+            background: var(--yellow);
+        }
+        .hero-headline {
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            color: var(--black);
+            margin-bottom: 2.5rem;
+        }
+        .hero-headline .highlight {
+            background: var(--yellow);
+            padding: 0 0.15em;
+            display: inline;
+        }
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--gray-mid);
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 620px;
+        }
+        .hero-sub strong {
+            color: var(--black);
+            font-weight: 700;
+        }
+
+        /* ── SECTION LABELS ── */
+        .section-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: var(--yellow);
+            color: var(--black);
+            padding: 0.3rem 0.75rem;
+            border-radius: 2px;
+            margin-bottom: 3rem;
+        }
+
+        /* ── ABOUT SECTION ── */
+        .about-section {
+            background: var(--gray-light);
+            border-top: 3px solid var(--yellow);
+            padding: 80px 2rem;
+        }
+        .about-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .about-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            line-height: 1.75;
+            color: #333;
+            font-weight: 400;
+            max-width: 780px;
+        }
+        .about-text p + p { margin-top: 1.25rem; }
+
+        /* ── DELIVERY SECTION ── */
+        .delivery-section {
+            padding: 100px 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .delivery-headline {
+            font-size: clamp(1.75rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 5rem;
+            max-width: 700px;
+        }
+        .delivery-headline em {
+            font-style: normal;
+            color: var(--gray-mid);
+        }
+
+        /* ── PAIR ITEMS ── */
+        .pair-item {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 0 2rem;
+            padding: 3rem 0;
+            border-top: 1px solid #E5E5E5;
+        }
+        .pair-item:last-child { border-bottom: 1px solid #E5E5E5; }
+        .pair-number {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #CCC;
+            letter-spacing: 0.05em;
+            padding-top: 0.2rem;
+        }
+        .pair-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        @media (max-width: 768px) {
+            .pair-item { grid-template-columns: 1fr; }
+            .pair-number { display: none; }
+            .pair-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
+        .label-tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--black);
+            background: var(--yellow);
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2px;
+            margin-bottom: 1rem;
+        }
+        .label-dark {
+            background: var(--black);
+            color: var(--yellow);
+        }
+        .quote-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #222;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        .delivered-text {
+            font-size: 1.1rem;
+            color: var(--gray-mid);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+        .pair-footnote {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.8rem;
+            color: #AAA;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── SPONSORSHIP ── */
+        .sponsor-section {
+            background: var(--black);
+            color: var(--white);
+            padding: 100px 2rem;
+        }
+        .sponsor-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .sponsor-headline {
+            font-size: clamp(1.75rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 4rem;
+            max-width: 640px;
+        }
+        .sponsor-headline .highlight { background: var(--yellow); color: var(--black); padding: 0 0.1em; }
+        .sponsor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        @media (max-width: 768px) { .sponsor-grid { grid-template-columns: 1fr; gap: 3rem; } }
+        .sponsor-bullets {
+            display: flex;
+            flex-direction: row;
+            gap: 2.5rem;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid #2A2A2A;
+        }
+        @media (max-width: 768px) { .sponsor-bullets { flex-direction: column; gap: 0; } }
+        .sponsor-item {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid #2A2A2A;
+        }
+        .sponsor-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .sponsor-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--yellow);
+            border-radius: 2px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sponsor-icon svg { width: 18px; height: 18px; }
+        .sponsor-item h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.35rem;
+        }
+        .sponsor-item p {
+            font-size: 0.85rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        /* Stats card */
+        .stats-card {
+            background: #111;
+            border: 1px solid #2A2A2A;
+            border-radius: 4px;
+            padding: 2rem;
+        }
+        .stat-row {
+            margin-bottom: 2rem;
+        }
+        .stat-row:last-child { margin-bottom: 0; }
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: var(--yellow);
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+        .stat-bar {
+            height: 4px;
+            background: #2A2A2A;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .stat-bar-fill {
+            height: 100%;
+            background: var(--yellow);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .stat-sub-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .stat-sub {
+            background: #1A1A1A;
+            border: 1px solid #2A2A2A;
+            border-radius: 2px;
+            padding: 1rem;
+        }
+        .stat-sub .stat-label { color: #555; }
+        .stat-sub .stat-value { font-size: 1.5rem; }
+        .stat-avg-row {
+            border-top: 1px solid #2A2A2A;
+            padding-top: 1.25rem;
+            margin-top: 1.5rem;
+        }
+        .stat-avg-row .stat-value { font-size: 1.25rem; color: #444; }
+
+        /* ── FOOTER ── */
+        .footer-cta {
+            padding: 100px 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .footer-left { display: flex; flex-direction: column; gap: 1rem; }
+        @media (max-width: 768px) {
+            .footer-cta { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
+            .footer-left { align-items: center; }
+        }
+        .footer-headline {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            color: var(--black);
+        }
+        .footer-headline .highlight { background: var(--yellow); padding: 0 0.1em; }
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            width: 100%;
+            max-width: 420px;
+        }
+        .footer-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border: 1.5px solid #E5E5E5;
+            border-radius: 2px;
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: border-color 0.15s, background 0.15s;
+            cursor: pointer;
+        }
+        .footer-link:hover { border-color: var(--yellow); background: #FFFDE0; }
+        .footer-link-url {
+            font-size: 0.8rem;
+            color: #AAA;
+            font-weight: 400;
+        }
+        .copyright {
+            padding: 2rem;
+            border-top: 1px solid #E5E5E5;
+            text-align: center;
+        }
+        .copyright p { font-size: 0.75rem; color: #AAA; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-brand">Candice Shen <span>×</span> DoiT</div>
+            <a href="mailto:candice.shen@yale.edu" class="nav-cta">Message Me</a>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO -->
+    <section class="hero">
+        <div class="hero-eyebrow">To the hiring team at DoiT</div>
+        <h1 class="hero-headline">
+            I reimagined the<br>
+            <span class="highlight">cover letter</span>
+        </h1>
+        <p class="hero-sub">
+            This interactive pitch shows exactly why I'm the right fit for
+            <strong>Data Platform Marketing Manager</strong> at <strong>DoiT</strong>.
+        </p>
+    </section>
+
+    <!-- SECTION 2: ABOUT -->
+    <section class="about-section">
+        <div class="about-inner">
+            <div class="section-label">About Me</div>
+            <div class="about-text">
+                <p>As an MBA graduate from Yale with experience in tech marketing, I specialize in driving go-to-market strategies and demand generation for data-driven solutions. My focus is on creating impactful narratives that resonate with enterprise audiences.</p><p>My background includes leading integrated marketing campaigns and developing content that showcases economic value, making me a strong fit for DoiT's mission.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE DELIVERY -->
+    <section id="solutions">
+        <div class="delivery-section">
+            <h2 class="delivery-headline">
+                How I can deliver what<br>
+                <em>DoiT asked for</em>
+            </h2>
+
+            <div>
+
+                <!-- Item 1 -->
+                <div class="pair-item">
+                    <div class="pair-number">01</div>
+                    <div class="pair-grid">
+                        <div class="jd-quote">
+                            <p class="label-tag">You want</p>
+                            <p class="quote-text">"Serve as the primary marketing lead for the SELECT / Data Platform business unit."</p>
+                        </div>
+                        <div class="delivered-block">
+                            <p class="label-tag label-dark">I delivered</p>
+                            <p class="delivered-text">I operationalized a high-touch ABM strategy at Starburst, directly influencing $5M in enterprise deals and establishing a clear positioning in the data lakehouse market.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="pair-item">
+                    <div class="pair-number">02</div>
+                    <div class="pair-grid">
+                        <div class="jd-quote">
+                            <p class="label-tag">You want</p>
+                            <p class="quote-text">"Lead and direct cross-functional execution across Growth and Digital."</p>
+                        </div>
+                        <div class="delivered-block">
+                            <p class="label-tag label-dark">I delivered</p>
+                            <p class="delivered-text">I built a full-funnel demand system at Materialize, managing a $50K monthly ad budget and generating a $125K revenue pipeline in the first quarter through optimized lead conversion.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="pair-item">
+                    <div class="pair-number">03</div>
+                    <div class="pair-grid">
+                        <div class="jd-quote">
+                            <p class="label-tag">You want</p>
+                            <p class="quote-text">"Develop quarterly thought leadership themes around data efficiency."</p>
+                        </div>
+                        <div class="delivered-block">
+                            <p class="label-tag label-dark">I delivered</p>
+                            <p class="delivered-text">Through 15 C-suite interviews at Microsoft, I discovered a critical narrative gap in AI Security, influencing strategic recommendations that shaped product roadmaps and messaging.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="pair-item">
+                    <div class="pair-number">04</div>
+                    <div class="pair-grid">
+                        <div class="jd-quote">
+                            <p class="label-tag">You want</p>
+                            <p class="quote-text">"Continuously refine programs based on performance data and economic outcomes."</p>
+                        </div>
+                        <div class="delivered-block">
+                            <p class="label-tag label-dark">I delivered</p>
+                            <p class="delivered-text">At Materialize, I challenged the Head of Growth's decision to pause newsletters, executing a trial that outperformed benchmarks, leading to a full reinstatement based on data-driven results.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="pair-footnote">Work samples and references available upon request</p>
+        </div>
+    </section>
+
+    <!-- SECTION 4: SPONSORSHIP -->
+    <section id="runway" class="sponsor-section">
+        <div class="sponsor-inner">
+            <div class="section-label" style="background: #222; color: var(--yellow);">Visa Sponsorship</div>
+
+            <!-- Headline + Stats card side by side -->
+            <div class="sponsor-grid">
+                <h2 class="sponsor-headline">
+                    The <span class="highlight">"sponsorship"</span> question<br>
+                    you're probably wondering about
+                </h2>
+
+                <div class="stats-card">
+                    <div class="stat-row">
+                        <div class="stat-label">Total Guaranteed Runway</div>
+                        <div class="stat-value">5.5 Yrs</div>
+                        <div class="stat-bar"><div class="stat-bar-fill" style="width: 100%;"></div></div>
+                    </div>
+                    <div class="stat-sub-grid">
+                        <div class="stat-sub">
+                            <div class="stat-label">STEM OPT</div>
+                            <div class="stat-value">3.0 Yrs</div>
+                        </div>
+                        <div class="stat-sub">
+                            <div class="stat-label">H1B Left</div>
+                            <div class="stat-value">2.5 Yrs</div>
+                        </div>
+                    </div>
+                    <div class="stat-avg-row">
+                        <div class="stat-label">Industry Avg Tenure</div>
+                        <div class="stat-value">1.8 Yrs</div>
+                        <div class="stat-bar"><div class="stat-bar-fill" style="width: 32%; background: #333;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bullet list below -->
+            <div class="sponsor-bullets">
+                <div class="sponsor-item">
+                    <div class="sponsor-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                        <h4>Risk-Free Stability</h4>
+                        <p>Low-cost cap-exempt H1B transfer &amp; STEM OPT. Zero lottery risk, 5.5 years of guaranteed runway. Longer than most tech tenures.</p>
+                    </div>
+                </div>
+                <div class="sponsor-item">
+                    <div class="sponsor-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                    </div>
+                    <div>
+                        <h4>Full time starting May</h4>
+                        <p>Available to join full time in May 2026.</p>
+                    </div>
+                </div>
+                <div class="sponsor-item">
+                    <div class="sponsor-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <div>
+                        <h4>Available now</h4>
+                        <p>Open to part time work (NYC or Remote) until then.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CTA -->
+    <footer>
+        <div class="footer-cta">
+            <div class="footer-left">
+                <h2 class="footer-headline">
+                    Let's start a<br>
+                    <span class="highlight">conversation</span>
+                </h2>
+                <p style="color: var(--gray-mid); font-size: 1rem;">I'd love to discuss how I can contribute to DoiT.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://linkedin.com/in/candiceshen" target="_blank" class="footer-link">
+                    <span>LinkedIn Profile</span>
+                    <span class="footer-link-url">linkedin.com/in/candiceshen</span>
+                </a>
+                <a href="https://candiceshen.com" target="_blank" class="footer-link">
+                    <span>Personal Website</span>
+                    <span class="footer-link-url">candiceshen.com</span>
+                </a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 Candice Shen · Built with care and AI assistance</p>
+        </div>
+    </footer>
+
+    <script>
+        // Animate sections on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+
+                    if (entry.target.id === 'runway') {
+                        setTimeout(() => {
+                            const fills = entry.target.querySelectorAll('.stat-bar-fill');
+                            if (fills[0]) fills[0].style.width = '100%';
+                            if (fills[1]) fills[1].style.width = '32%';
+                        }, 300);
+                    }
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('section, footer').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(28px)";
+            el.style.transition = "opacity 0.7s ease-out, transform 0.7s ease-out";
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>
